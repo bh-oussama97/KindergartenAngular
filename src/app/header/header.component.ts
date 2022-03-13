@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -10,22 +11,32 @@ export class HeaderComponent implements OnInit {
 username!:any;
 stateuser!:any;
 
-  constructor() { }
+role! : any;
+
+  constructor(public loginService:UserService) { }
 
 
   getusernamevalue() {
-    return localStorage.getItem('username');
+    return sessionStorage.getItem('username');
    
  } 
 
  getstateuser() {
-  return localStorage.getItem('stateuser');
+  return sessionStorage.getItem('stateuser');
  
 } 
 
 
+getRole()
+{
+ return sessionStorage.getItem('role');
+}
+
+
   ngOnInit(): void {
 
+    this.role = this.getRole();
+    console.log("role user header component is"+ this.role);
     this.username = this.getusernamevalue();
     this.stateuser = this.getstateuser();
   }

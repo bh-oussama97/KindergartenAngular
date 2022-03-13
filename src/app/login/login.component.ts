@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 import { User } from '../models/user';
 import { UserService } from '../services/user.service';
@@ -23,15 +25,29 @@ export class LoginComponent implements OnInit {
 
   message : boolean=false;
 
-  constructor(private userservice: UserService,private _router : Router) { }
+  loginForm!: FormGroup;
+
+  constructor(private userservice: UserService,private _router : Router,private fb : FormBuilder) { }
 
   ngOnInit(): void {
+
+    this.dataValidation();
   }
 
 
+
+
+  dataValidation()
+  {
+    this.loginForm = this.fb.group({
+      email : ['',[Validators.required,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]],
+      password :['',[Validators.required,Validators.minLength(6)]]
+    });
+  }
+
   forgetPassword()
   {
-    console.log('email to pass: '+this.emailtopass);
+    console.log('email to pass: '+this.emailtopass); 
    
 
     this.userservice.forgetPassword(this.emailtopass).subscribe(
@@ -53,10 +69,7 @@ export class LoginComponent implements OnInit {
 
   loginUser()
   {
-
-  
-
-    this.userservice.LoginUser(this.user).subscribe(
+    this.userservice.LoginUser(this.loginForm.value).subscribe(
       data => {
 
         console.log("email of user"+this.user.email);
@@ -70,15 +83,16 @@ export class LoginComponent implements OnInit {
        console.log(this.stateuser);
        
 
-        if (this.role== "ROLE_parent" && this.stateuser == "active")
+        if ( this.stateuser == "active")
         {
-          localStorage.setItem("username",data.username);
-          localStorage.setItem("stateuser",this.stateuser);
+          sessionStorage.setItem("username",data.username);
+          sessionStorage.setItem("stateuser",this.stateuser);
+          sessionStorage.setItem("role",data.authorities[0]);
           this._router.navigate(['/home']);
 
           this.message = false;
         }
-       else if (this.role == "ROLE_parent" && this.stateuser =="waiting")
+       else if ( this.stateuser =="waiting")
        {
         this.message = true;
        }
@@ -90,6 +104,12 @@ export class LoginComponent implements OnInit {
       },
       error => {
         console.log(error.error); 
+        Swal.fire({  
+          icon: 'error',  
+          title: 'Try again',  
+          text: 'Password or email is wrong !'
+        
+        }) 
       }
         );
       }

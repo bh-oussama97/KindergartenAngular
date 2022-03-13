@@ -13,6 +13,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AboutusComponent } from './aboutus/aboutus.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { LogoutComponent } from './logout/logout.component';
+import { ActivitiesComponent } from './activities/activities.component';
+import { DetailsActivityComponent } from './details-activity/details-activity.component';
+import { BlogComponent } from './blog/blog.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +28,11 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     PagenotfoundComponent,
     RegisterComponent,
     AboutusComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    LogoutComponent,
+    ActivitiesComponent,
+    DetailsActivityComponent,
+    BlogComponent
   ],
   imports: [
     BrowserModule,

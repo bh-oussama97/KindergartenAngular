@@ -27,7 +27,7 @@ export class ResetPasswordComponent implements OnInit {
 
    
   }
-
+  
   getValue() {
     return localStorage.getItem('emailtopass');
    

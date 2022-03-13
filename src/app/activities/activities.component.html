@@ -1,0 +1,59 @@
+<div class="page-content bg-white">
+    <!-- inner page banner -->
+    <div class="dlab-bnr-inr overlay-black-middle bg-pt" style="background-image:url(../../assets/images/banner/bnr2.jpg);">
+        <div class="container">
+            <div class="dlab-bnr-inr-entry">
+                <h1 class="text-white">Activities</h1>
+                <!-- Breadcrumb row -->
+                <div class="breadcrumb-row">
+                    <ul class="list-inline">
+                        <li><a routerLink="/home">Home</a></li>
+                        <li>Activities</li>
+                    </ul>
+                </div>
+                <!-- Breadcrumb row END -->
+            </div>
+        </div>
+    </div>
+    <!-- inner page banner END -->
+    <!-- contact area -->
+    <div class="content-block">
+        <!-- Features -->
+        <div class="section-full content-inner bg-gray">
+            <div class="container">
+                <div class="section-head text-black text-center">
+                    <h2 class="title">Our Activities</h2>
+                    <p>
+                        Engage your little ones with easy kindergarten activities! A great resource for all parents and teachers, these activities for kindergarteners will hold their attention and satisfy their curiosity. There are a variety of activities available - from fun math activities to reading activities, science activities, and a whole range of other printable ones
+
+                    </p>
+                </div>
+                <div class="row">
+                    <div  *ngFor="let act of activities" class="col-lg-4 col-md-6 col-sm-6 m-b30 wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.3s" style="visibility: visible; animation-duration: 2s; animation-delay: 0.3s; animation-name: fadeInUp;">
+                        <div class="dlab-box service-box-2">
+                            <div class="dlab-media radius-sm dlab-img-overlay1 dlab-img-effect rotate"> 
+                                <a href="javascript:void(0);"><img src="../../assets/images/Upload/{{act.photo}}" alt=""></a> 
+                            </div>
+                            <div class="dlab-info">
+                                <h4 class="title" >{{act.name}}</h4>
+                               <button (click)="detailsactivity(act.id)" class="site-button btnhover14 btn-tb">Learn more</button>
+                            </div>
+                        </div>
+                    </div>
+                  
+                    
+                   
+                   
+                   
+                </div>
+            </div>
+        </div>
+        <!-- Features End -->
+       
+        <!-- Content Section End -->
+        <!-- Testimonials -->
+     
+        <!-- Testimonials END -->
+    </div>
+    <!-- contact area END -->
+</div>

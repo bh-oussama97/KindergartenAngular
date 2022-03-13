@@ -29,7 +29,7 @@
                 <div class="col-lg-12 m-b30">
                     <div class="p-a30 border-1  max-w500 m-auto">
                         <div class="tab-content">
-                            <form #RegisterForm="ngForm" (ngSubmit)="registerUser()" class="tab-pane active">
+                            <form [formGroup]="this.userservice.formData" (ngSubmit)="registerUser()" class="tab-pane active">
   
                                 <h4 class="font-weight-700">PERSONAL INFORMATION</h4>
                                 <p class="font-weight-600">If you have an account with us, please log in.</p>
@@ -38,78 +38,91 @@
                                 <div class="form-group">
 
                                     <label class="font-weight-700">First Name</label>
-                                    <input type="text"  class="form-control" name="firstName"  placeholder="First Name" [(ngModel)]="user.firstName" #firstName="ngModel" [class.is-invalid]="firstName.invalid && firstName.touched" required/>                                    
-                          
-                                   <small class="text-danger" [class.d-none]="firstName.valid || firstName.untouched"> First Name is required</small>
-                          
-                                
+                                    <input type="text" id="firstname" class="form-control" formControlName="firstName"  placeholder="First Name" />                                    
+                                    <small class="text-danger" *ngIf="this.userservice.formData.controls['firstName'].dirty && this.userservice.formData.hasError('required','firstName')">*First Name is required</small>
+                                    <small class="text-danger" *ngIf="this.userservice.formData.controls['firstName'].errors?.minlength">
+                                        First Name must be at least 6 characters long.
+                                    </small>                                   
                                 </div>
 
 
                                 <div class="form-group">
                                     <label class="font-weight-700">Last Name</label>
-                                    <input name="lastName" class="form-control" placeholder="Last Name" type="text" [(ngModel)]="user.lastName" #lastName="ngModel" [class.is-invalid]="lastName.invalid && lastName.touched" required/>  
-                                   
-                                        <small class="text-danger" [class.d-none]="lastName.valid || lastName.untouched"> Last Name is required</small>
-                                 
+                                    <input name="lastName" formControlName="lastName"  class="form-control" placeholder="Last Name" type="text" />  
+                                    <small class="text-danger" *ngIf="this.userservice.formData.controls['lastName'].dirty && this.userservice.formData.hasError('required','lastName')">*Last Name is required</small>
+                                    <small class="text-danger" *ngIf="this.userservice.formData.controls['lastName'].errors?.minlength">
+                                        Last Name must be at least 6 characters long.
+                                    </small> 
                                 </div>
 
                                 <div class="form-group">
 
                                     <label class="font-weight-700">E-MAIL</label>
-                                    <input name="email" class="form-control" placeholder="Your Email" type="email"  [(ngModel)]="user.email" #email="ngModel" [class.is-invalid]="email.invalid && email.touched"  required  pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" >
-                                  
-                                    <div *ngIf="email.errors">
-                                        <small class="text-danger" *ngIf="email.errors.required">
-                                             Email required.
-                                        </small> 		   
-                                        <small class="text-danger" *ngIf="email.errors.pattern">
-                                             Email not valid.
-                                        </small> 
-                                    </div>
+                                    <input name="email" formControlName="email" class="form-control" placeholder="Your Email" type="email"  >
+                                    <small class="text-danger" *ngIf="this.userservice.formData.controls['email'].dirty && this.userservice.formData.hasError('required','email')">*Email is required</small>
+                                    <small class="text-danger" *ngIf="this.userservice.formData.controls['email'].errors?.pattern">
+                                       Invalid Email 
+                                    </small> 
+                                    
 
                                 </div>
 
 
                                 <div class="form-group">
                                     <label class="font-weight-700">PASSWORD</label>
-                                    <input name="password"  class="form-control " placeholder="Type Password" type="password"  [(ngModel)]="user.password" #password="ngModel" [class.is-invalid]="password.invalid && password.touched" required>
-
-                                    <small class="text-danger" [class.d-none]="password.valid|| password.untouched">Password is required</small>
+                                    <input name="password"  formControlName="password" class="form-control " placeholder="Type Password" type="password" >
+                                    <small class="text-danger" *ngIf="this.userservice.formData.controls['password'].dirty && this.userservice.formData.hasError('required','password')">*Password is required</small>
+                                    <small class="text-danger" *ngIf="this.userservice.formData.controls['password'].errors?.minlength">
+                                        Password must be at least 6 characters long.
+                                    </small> 
 
                                 </div>
 
                                 <div class="form-group">
                                     <label class="font-weight-700">CONFIRM PASSWORD</label>
                            
-                                    <input name="cpassword"  class="form-control " placeholder="Type Confirm Password" type="password" [(ngModel)]="user.password" #cpassword="ngModel" [class.is-invalid]="cpassword.invalid && cpassword.touched" required>
-                           
-
-                                    <small class="text-danger" [class.d-none]="(cpassword.value == password.value) || cpassword.untouched">Password & Confirm Password must be the same</small>
+                                    <input name="cpassword"  formControlName="cpassword" class="form-control " placeholder="Type Confirm Password" type="password" >
+                                    <small class="text-danger" *ngIf="this.userservice.formData.controls['cpassword'].dirty && this.userservice.formData.hasError('required','cpassword')">*Confirm Password is required</small>
+                                    <small class="text-danger" *ngIf="this.userservice.formData.controls['cpassword'].errors?.minlength">
+                                        Confirm Password must be at least 6 characters long.
+                                    </small>   
+                                    
+                                    <small class="text-danger" *ngIf="this.userservice.formData.controls['cpassword'].errors?.confirmedValidator">
+                                        password and confirm password must be equal
+                                    </small>  
 
                                 </div>
 
                                 <div class="form-group">
                                     <label class="font-weight-700">ADDRESS</label>
-                                    <input name="address"  class="form-control" placeholder="Your Address" type="textarea" [(ngModel)]="user.address" #address="ngModel" [class.is-invalid]="address.invalid && address.touched" required >
-                                    <small class="text-danger" [class.d-none]="address.valid|| address.untouched">Adress is required</small>
+                                    <input name="address" formControlName="address" class="form-control" placeholder="Your Address" type="textarea"  >
+                                    <small class="text-danger" *ngIf="this.userservice.formData.controls['address'].dirty && this.userservice.formData.hasError('required','address')">*Address is required</small>
 
                                 </div>
 
                                 <div class="form-group">
                                     <label class="font-weight-700">PHONE NUMBER </label>
-                                    <input name="tel"  class="form-control" placeholder="Your Phone Number" type="tel"  [(ngModel)]="user.tel" #tel="ngModel" [class.is-invalid]="tel.invalid && tel.touched" required pattern="[9|5|2][0-9]{7}" >
-                                    <div *ngIf="tel.errors && (tel.invalid && tel.touched)">
-                                        <small class="text-danger" *ngIf="tel.errors.required"> PhoneNumber is required</small>
-                                    <small class="text-danger" *ngIf="tel.errors.pattern">Enter a valid phone number</small>
-                                    </div>
-                                </div>
+                                    <!-- <input name="tel"  class="form-control" placeholder="Your Phone Number" type="tel"  [(ngModel)]="user.tel" #tel="ngModel" [class.is-invalid]="tel.invalid && tel.touched" required pattern="[9|5|2][0-9]{7}" > -->
+                                    <input name="tel" formControlName="tel" class="form-control" placeholder="Your Phone Number" type="tel"   >
+                                    <small class="text-danger" *ngIf="this.userservice.formData.controls['tel'].dirty && this.userservice.formData.hasError('required','tel')">*Phone Number is required</small>
+                                    <small class="text-danger" *ngIf="this.userservice.formData.controls['tel'].errors?.pattern">
+                                       Phone Number is invalid
+                                    </small> 
+                                </div>  
 
                                 <div class="form-group">
+
                                     <label class="font-weight-700">ROLE </label>
-                                    <select name="role" [(ngModel)]="selectedRole">
-                                  
-                                        <option *ngFor="let role of roles" [value]="role.valuetosave">{{role.valuetosave}}</option>
+                                    <select  formControlName="role" class="form-control">
+                                      
+                                        <!-- <option *ngFor="let role of roles" [value]="role.valuetosave">{{role.valuetosave}}</option> -->
+                                   <option value="ROLE_parent">Parent</option>
+                                   <option value="ROLE_adminGarten">Admin Garten</option>
+                                   <option value="ROLE_visitor">Visitor</option>
+                                   <option value="ROLE_doctor">Doctor</option>
+                                   <option value="ROLE_agentCashier">Agent Cashier</option>
+                                   <option value="ROLE_provider">Provider</option>
+                                   
                                     </select>
                                    
 
@@ -120,7 +133,7 @@
                                 <div class="text-left m-t15">
 
                                   
-                                    <button type="submit" class="site-button m-r5 button-lg radius-no" >CREATE</button>
+                                    <button type="submit"  class="site-button m-r5 button-lg radius-no" >CREATE</button>
                                 </div>
 
                                     
